@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tree_view_app/design_system/custom_text_styles.dart';
 
-import '../../../design_system/colors.dart';
-import '../../../design_system/images_path.dart';
+import '../../config/assets.dart';
+import '../core/themes/colors.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(ImagesPath.logoTractian),
+        title: Image.asset(Assets.logoTractian),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 22, top: 30, right: 22),
@@ -22,7 +21,7 @@ class HomeScreen extends StatelessWidget {
               height: 76,
               margin: EdgeInsets.only(bottom: 40),
               decoration: BoxDecoration(
-                color: CustomColors.secondary,
+                color: AppColors.blue,
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Padding(
@@ -33,10 +32,10 @@ class HomeScreen extends StatelessWidget {
                 child: Row(
                   spacing: 16,
                   children: [
-                    Image.asset('assets/icons/vector.png'),
+                    Image.asset(Assets.vector),
                     Text(
                       "Jaguar Unit",
-                      style: CustomTextStyles.title,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ],
                 ),
