@@ -13,7 +13,7 @@ final class Ok<T> extends Result<T> {
 }
 
 final class Error<T> extends Result<T> {
-  final Exception value;
+  final Exception error;
 
-  const Error._(this.value);
+  const Error._(this.error);
 }
