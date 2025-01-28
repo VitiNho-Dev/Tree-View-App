@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../utils/errors.dart';
 import '../../utils/http_client.dart';
 import '../../utils/result.dart';
@@ -16,7 +18,8 @@ class Client {
       );
 
       if (response.statusCode == 200) {
-        return Result.ok(response.data);
+        final data = jsonDecode(response.data) as Map<String, dynamic>;
+        return Result.ok(data);
       } else {
         return Result.error(HttpException('Invalid response'));
       }

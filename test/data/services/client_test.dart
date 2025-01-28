@@ -18,21 +18,34 @@ void main() {
 
   group('Client Test', () {
     test('Should return JSON from API if status code is 200', () async {
-      final mockResponse = Response(
-        data: {'teste': '1'},
-        statusCode: 200,
-        requestOptions: RequestOptions(path: ''),
-      );
-
       when(
         () => httpClient.get(any()),
       ).thenAnswer(
-        (_) async => mockResponse,
+        (_) async => Response(
+          data: {'teste': '1'},
+          statusCode: 200,
+          requestOptions: RequestOptions(path: ''),
+        ),
       );
 
       final response = await client.getCompanies();
 
       expect(response, isA<Ok<Map<String, dynamic>>>());
+      verify(() => httpClient.get(any())).called(1);
+    });
+
+    test('Should return a Error if status code is not 200', () async {
+      when(
+        () => httpClient.get(any()),
+      ).thenThrow(
+        DioException(
+          requestOptions: RequestOptions(),
+        ),
+      );
+
+      final response = await client.getCompanies();
+
+      expect(response, isA<Error<Map<String, dynamic>>>());
       verify(() => httpClient.get(any())).called(1);
     });
   });

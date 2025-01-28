@@ -15,5 +15,6 @@ abstract final class AppTheme {
     useMaterial3: true,
     brightness: Brightness.light,
     textTheme: AppTheme._textTheme,
+    appBarTheme: AppBarTheme(backgroundColor: AppColors.darkBlue),
   );
 }
