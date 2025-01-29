@@ -64,7 +64,12 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/logo_tractian.png
+    - assets/images/asset.png
+    - assets/images/component.png
+    - assets/images/location.png
     - assets/icons/vector.png
+    - assets/icons/bolt.png
+    - assets/icons/critical.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tree_view_app/ui/home/view_models/home_view_model.dart';
+import 'package:tree_view_app/ui/home/view_models/home_viewmodel.dart';
 
 import '../../../config/assets.dart';
 import '../../core/themes/colors.dart';
@@ -43,27 +43,36 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final companie = homeViewModel.companies[index];
 
-                  return Container(
-                    height: 76,
-                    margin: EdgeInsets.only(bottom: 40),
-                    decoration: BoxDecoration(
-                      color: AppColors.blue,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 26,
-                        horizontal: 32,
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/asset',
+                        arguments: {'id': companie.id},
+                      );
+                    },
+                    child: Container(
+                      height: 76,
+                      margin: EdgeInsets.only(bottom: 40),
+                      decoration: BoxDecoration(
+                        color: AppColors.blue,
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      child: Row(
-                        spacing: 16,
-                        children: [
-                          Image.asset(Assets.vector),
-                          Text(
-                            companie.name,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 26,
+                          horizontal: 32,
+                        ),
+                        child: Row(
+                          spacing: 16,
+                          children: [
+                            Image.asset(Assets.vector),
+                            Text(
+                              companie.name,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'result.dart';
 
 typedef CommandAction0<T> = Future<Result<T>> Function();
+typedef CommandAction1<T, A> = Future<Result<T>> Function(A);
 
 abstract class Command<T> extends ChangeNotifier {
   bool _running = false;
@@ -45,5 +46,15 @@ final class Command0<T> extends Command<T> {
 
   Future<void> execute() async {
     await _execute(_action);
+  }
+}
+
+final class Command1<T, A> extends Command<T> {
+  final CommandAction1<T, A> _action;
+
+  Command1(this._action);
+
+  Future<void> execute(A argument) async {
+    await _execute(() => _action(argument));
   }
 }

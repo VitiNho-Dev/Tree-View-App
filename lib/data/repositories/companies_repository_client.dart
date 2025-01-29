@@ -1,4 +1,5 @@
 import '../../domain/models/companie.dart';
+import '../../domain/models/location.dart';
 import '../../utils/result.dart';
 import '../services/client.dart';
 import 'companies_repository.dart';
@@ -29,5 +30,18 @@ class CompaniesRepositoryClient implements CompaniesRepository {
       case Error<ReturnMap>():
         return Result.error(result.error);
     }
+  }
+
+  @override
+  Future<Result<List<Location>>> getLocations(String id) async {
+    final result = _response[id]['locations'];
+    final locations = List<ReturnMap>.from(result) //
+        .map(Location.fromJson)
+        .toList();
+    if (locations.isNotEmpty) {
+      return Result.ok(locations);
+    }
+
+    return Result.error(Exception('List is empty'));
   }
 }
