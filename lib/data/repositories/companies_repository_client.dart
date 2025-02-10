@@ -1,4 +1,6 @@
+import '../../domain/models/asset.dart';
 import '../../domain/models/companie.dart';
+import '../../domain/models/component.dart';
 import '../../domain/models/location.dart';
 import '../../utils/result.dart';
 import '../services/client.dart';
@@ -38,10 +40,40 @@ class CompaniesRepositoryClient implements CompaniesRepository {
     final locations = List<ReturnMap>.from(result) //
         .map(Location.fromJson)
         .toList();
+
     if (locations.isNotEmpty) {
       return Result.ok(locations);
     }
 
     return Result.error(Exception('List is empty'));
+  }
+
+  final _componentsMap = <ReturnMap>[];
+
+  @override
+  Future<Result<List<Asset>>> getAssets(String id) async {
+    final result = _response[id]['assets'];
+
+    final assetsMap = <ReturnMap>[];
+    for (var item in result) {
+      if (item.containsKey('sensorType') && item['sensorType'] != null) {
+        _componentsMap.add(item);
+      } else {
+        assetsMap.add(item);
+      }
+    }
+
+    final assets = List<ReturnMap>.from(assetsMap).map(Asset.fromJson).toList();
+
+    return Result.ok(assets);
+  }
+
+  @override
+  Result<List<Component>> getComponents() {
+    final components = List<ReturnMap>.from(_componentsMap) //
+        .map(Component.fromJson)
+        .toList();
+
+    return Result.ok(components);
   }
 }

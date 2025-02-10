@@ -1,27 +1,27 @@
-import 'asset.dart';
 import 'component.dart';
 
-class Location {
+class Asset {
   final String id;
   final String name;
   final String? parentId;
-  final List<Location> subLocations;
-  final List<Asset> assets;
+  final String? locationId;
+  final List<Asset> subAssets;
   final List<Component> components;
 
-  Location({
+  Asset({
     required this.id,
     required this.name,
     this.parentId,
-  })  : subLocations = [],
-        components = [],
-        assets = [];
+    this.locationId,
+  })  : subAssets = [],
+        components = [];
 
-  factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(
+  factory Asset.fromJson(Map<String, dynamic> json) {
+    return Asset(
       id: json['id'],
       name: json['name'],
       parentId: json['parentId'],
+      locationId: json['locationId'],
     );
   }
 }

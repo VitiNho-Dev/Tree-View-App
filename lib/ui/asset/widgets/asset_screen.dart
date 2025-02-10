@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:tree_view_app/config/assets.dart';
 
+import '../../../domain/models/component.dart';
+import '../../../domain/models/location.dart';
 import '../../core/themes/colors.dart';
+import '../../core/widgets/component_widget.dart';
 import '../view_models/asset_viewmodel.dart';
 import 'content.dart';
 
@@ -49,13 +52,11 @@ class _AssetScreenState extends State<AssetScreen> {
                       return ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: assetViewModel.locations.length,
+                        itemCount: assetViewModel.items.length,
                         itemBuilder: (context, index) {
-                          final location = assetViewModel.locations[index];
-                          return _buildTile(
-                            title: location.name,
-                            icon: Assets.location,
-                          );
+                          final items = assetViewModel.items;
+
+                          return SizedBox.shrink();
                         },
                       );
                     },
@@ -66,30 +67,6 @@ class _AssetScreenState extends State<AssetScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildTile({
-    required String title,
-    required String icon,
-    List<Widget>? children,
-  }) {
-    return ExpansionTile(
-      showTrailingIcon: false,
-      leading: Icon(Icons.keyboard_arrow_down),
-      title: Row(
-        children: [
-          Image.asset(icon),
-          Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(color: AppColors.black100),
-          ),
-        ],
-      ),
-      children: children ?? [],
     );
   }
 }
