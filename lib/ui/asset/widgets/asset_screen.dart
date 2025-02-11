@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:tree_view_app/config/assets.dart';
+import 'package:tree_view_app/ui/core/widgets/location_widget.dart';
 
 import '../../../domain/models/component.dart';
 import '../../../domain/models/location.dart';
@@ -54,7 +55,33 @@ class _AssetScreenState extends State<AssetScreen> {
                         shrinkWrap: true,
                         itemCount: assetViewModel.items.length,
                         itemBuilder: (context, index) {
-                          final items = assetViewModel.items;
+                          final item = assetViewModel.items[index];
+
+                          if (item is Location) {
+                            final location = item;
+
+                            return LocationWidget(
+                              title: location.name,
+                              subLocations: [],
+                              components: item.components
+                                  .map(
+                                    (e) => ComponentWidget(
+                                      title: e.name,
+                                      status: e.status,
+                                    ),
+                                  )
+                                  .toList(),
+                            );
+                          }
+
+                          if (item is Component) {
+                            final component = item;
+
+                            return ComponentWidget(
+                              title: component.name,
+                              status: component.status,
+                            );
+                          }
 
                           return SizedBox.shrink();
                         },

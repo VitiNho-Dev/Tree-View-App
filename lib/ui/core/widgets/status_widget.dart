@@ -12,13 +12,14 @@ class StatusWidget extends StatelessWidget {
     switch (status) {
       case Status.alert:
         return Icon(
-          Icons.circle,
+          Icons.bolt,
           color: Colors.red,
         );
       case Status.operating:
-        return Image.asset(
-          Assets.bolt,
+        return Icon(
+          Icons.bolt,
           color: Colors.green,
+          size: 18,
         );
     }
   }

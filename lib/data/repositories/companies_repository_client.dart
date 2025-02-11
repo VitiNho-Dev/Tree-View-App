@@ -74,6 +74,8 @@ class CompaniesRepositoryClient implements CompaniesRepository {
         .map(Component.fromJson)
         .toList();
 
+    _componentsMap.clear();
+
     return Result.ok(components);
   }
 }

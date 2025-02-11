@@ -18,7 +18,7 @@ class AssetViewModel extends ChangeNotifier {
 
   late final Command1<void, String> getLocations;
 
-  var items = <Object>{};
+  var items = <Object>[];
 
   var _locations = <Location>[];
 
@@ -235,13 +235,22 @@ class AssetViewModel extends ChangeNotifier {
   }
 
   /// Retorna um map com os Locations e Components externo.
-  Set<Object> _joinLists(List<Location> locations) {
-    final locationsMap = {for (var location in locations) "Location": location};
-    final componentsMap = {
-      for (var component in _componentsExternal) "Component": component
-    };
+  List<Object> _joinLists(List<Location> locations) {
+    var allItens = <Object>[];
 
-    return {locationsMap, componentsMap};
+    for (var component in _componentsExternal) {
+      allItens.add(component);
+    }
+
+    _componentsExternal.clear();
+
+    for (var location in locations) {
+      allItens.add(location);
+    }
+
+    locations.clear();
+
+    return allItens;
   }
 
   void _buildHierarchy() {
