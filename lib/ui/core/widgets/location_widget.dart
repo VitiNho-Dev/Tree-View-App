@@ -10,8 +10,8 @@ class LocationWidget extends StatelessWidget {
   const LocationWidget({
     super.key,
     required this.title,
-    required this.subLocations,
-    required this.components,
+    this.subLocations = const [],
+    this.components = const [],
   });
 
   @override
@@ -20,6 +20,13 @@ class LocationWidget extends StatelessWidget {
       leading: Image.asset(Assets.location),
       title: Text(title),
       children: [
+        ...subLocations.map(
+          (e) => LocationWidget(
+            title: title,
+            subLocations: subLocations,
+            components: components,
+          ),
+        ),
         ...components.map(
           (comp) => ComponentWidget(title: comp.title, status: comp.status),
         ),

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tree_view_app/config/assets.dart';
-import 'package:tree_view_app/ui/core/widgets/location_widget.dart';
 
-import '../../../domain/models/component.dart';
+import '../../../domain/models/asset.dart';
 import '../../../domain/models/location.dart';
 import '../../core/themes/colors.dart';
-import '../../core/widgets/component_widget.dart';
 import '../view_models/asset_viewmodel.dart';
 import 'content.dart';
 
@@ -50,41 +47,17 @@ class _AssetScreenState extends State<AssetScreen> {
                   return ListenableBuilder(
                     listenable: assetViewModel,
                     builder: (context, _) {
-                      return ListView.builder(
+                      return ListView(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: assetViewModel.items.length,
-                        itemBuilder: (context, index) {
-                          final item = assetViewModel.items[index];
-
-                          if (item is Location) {
-                            final location = item;
-
-                            return LocationWidget(
-                              title: location.name,
-                              subLocations: [],
-                              components: item.components
-                                  .map(
-                                    (e) => ComponentWidget(
-                                      title: e.name,
-                                      status: e.status,
-                                    ),
-                                  )
-                                  .toList(),
-                            );
-                          }
-
-                          if (item is Component) {
-                            final component = item;
-
-                            return ComponentWidget(
-                              title: component.name,
-                              status: component.status,
-                            );
-                          }
-
-                          return SizedBox.shrink();
-                        },
+                        children: assetViewModel.items.map(
+                          (item) {
+                            if (item is Location) {
+                              return _buildLocationTile(item);
+                            }
+                            return SizedBox.shrink();
+                          },
+                        ).toList(),
                       );
                     },
                   );
@@ -94,6 +67,47 @@ class _AssetScreenState extends State<AssetScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildLocationTile(Location location) {
+    return ExpansionTile(
+      title: Text(location.name),
+      children: [
+        ...location.subLocations.map((subLocation) {
+          return _buildLocationTile(subLocation);
+        }),
+        ...location.assets.map((asset) {
+          return _buildAssetTile(asset);
+        }),
+      ],
+    );
+  }
+
+  Widget _buildAssetTile(Asset asset) {
+    return ExpansionTile(
+      title: Text(asset.name),
+      children: [
+        ...asset.subAssets.map((subAsset) {
+          return _buildSubAssetTile(subAsset);
+        }),
+        ...asset.components.map((component) {
+          return ListTile(
+            title: Text(component.name),
+          );
+        }),
+      ],
+    );
+  }
+
+  Widget _buildSubAssetTile(Asset subAsset) {
+    return ExpansionTile(
+      title: Text(subAsset.name),
+      children: subAsset.components.map((component) {
+        return ListTile(
+          title: Text(component.name),
+        );
+      }).toList(),
     );
   }
 }

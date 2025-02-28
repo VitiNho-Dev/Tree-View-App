@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tree_view_app/config/assets.dart';
 import 'package:tree_view_app/domain/models/component.dart';
 
 class StatusWidget extends StatelessWidget {
