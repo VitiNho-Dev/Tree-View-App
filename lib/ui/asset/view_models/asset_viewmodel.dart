@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../data/repositories/companies_repository.dart';
+import '../../../data/repositories/companies_repository_client.dart';
 import '../../../domain/models/asset.dart';
 import '../../../domain/models/component.dart';
 import '../../../domain/models/location.dart';
@@ -276,7 +276,5 @@ class AssetViewModel extends ChangeNotifier {
     final locationsFiltered = _assignSubLocationToAnLocation();
 
     items = _joinLists(locationsFiltered);
-
-    print(items);
   }
 }

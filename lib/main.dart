@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tree_view_app/data/services/client.dart';
+import 'package:tree_view_app/data/services/api_client.dart';
 import 'package:tree_view_app/ui/asset/view_models/asset_viewmodel.dart';
 import 'package:tree_view_app/ui/asset/widgets/asset_screen.dart';
 
-import 'data/repositories/companies_repository.dart';
 import 'data/repositories/companies_repository_client.dart';
 import 'ui/core/themes/theme.dart';
 import 'ui/home/view_models/home_viewmodel.dart';
@@ -16,10 +15,10 @@ GetIt getIt = GetIt.instance;
 
 void main() {
   // Http
-  getIt.registerFactory<HttpClient>(() => DioHttp(Dio()));
+  getIt.registerFactory<HttpClient>(() => DioHttp(dio: Dio()));
 
   // Client
-  getIt.registerFactory(() => Client(httpClient: getIt()));
+  getIt.registerFactory(() => ApiClient(httpClient: getIt()));
 
   // Repository
   getIt.registerSingleton<CompaniesRepository>(

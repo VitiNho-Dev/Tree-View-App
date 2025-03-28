@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tree_view_app/utils/command.dart';
 
-import '../../../data/repositories/companies_repository.dart';
+import '../../../data/repositories/companies_repository_client.dart';
 import '../../../domain/models/companie.dart';
 import '../../../utils/result.dart';
 

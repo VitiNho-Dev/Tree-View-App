@@ -1,18 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:tree_view_app/data/repositories/companies_repository.dart';
 import 'package:tree_view_app/data/repositories/companies_repository_client.dart';
-import 'package:tree_view_app/data/services/client.dart';
+import 'package:tree_view_app/data/services/api_client.dart';
 import 'package:tree_view_app/domain/models/companie.dart';
 import 'package:tree_view_app/domain/models/location.dart';
 import 'package:tree_view_app/utils/result.dart';
 
 import '../../response_mock/response.dart';
 
-class MockClient extends Mock implements Client {}
+class MockClient extends Mock implements ApiClient {}
 
 void main() {
-  late Client client;
+  late ApiClient client;
   late CompaniesRepository repository;
 
   setUp(() {

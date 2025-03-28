@@ -1,139 +1,121 @@
 import 'package:dio/dio.dart';
 
-import '../utils/errors.dart';
+import 'errors/custom_errors.dart';
+
+final class HttpResponse<T> {
+  final int statusCode;
+  final dynamic data;
+
+  const HttpResponse({required this.statusCode, required this.data});
+}
 
 abstract interface class HttpClient {
-  Future<Response<T>> get<T>(
+  Future<HttpResponse<T>> get<T>(
     String path, {
-    Object? data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
   });
 
-  Future<Response<T>> post<T>(
+  Future<HttpResponse<T>> post<T>(
     String path, {
-    Object? data,
+    dynamic data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
   });
 
-  Future<Response<T>> put<T>(
+  Future<HttpResponse<T>> put<T>(
     String path, {
-    Object? data,
+    dynamic data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
   });
 
-  Future<Response<T>> delete<T>(
+  Future<HttpResponse<T>> delete<T>(
     String path, {
-    Object? data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
   });
 }
 
 class DioHttp implements HttpClient {
   final Dio _dio;
 
-  const DioHttp(this._dio);
+  const DioHttp({required Dio dio}) : _dio = dio;
 
   @override
-  Future<Response<T>> delete<T>(
+  Future<HttpResponse<T>> get<T>(
     String path, {
-    Object? data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-  }) {
+  }) async {
     try {
-      return _dio.delete(
-        path,
-        data: data,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
+      final response = await _dio.get(path, queryParameters: queryParameters);
+
+      return HttpResponse<T>(
+        statusCode: response.statusCode ?? 404,
+        data: response.data,
       );
-    } on DioException catch (e) {
-      throw HttpException(
-        e.message ?? '',
-        statusCode: e.response?.statusCode ?? 404,
-      );
+    } on DioException catch (error, stackTrace) {
+      throw ClientHttpError(message: error.toString(), stackTrace: stackTrace);
     }
   }
 
   @override
-  Future<Response<T>> get<T>(
+  Future<HttpResponse<T>> post<T>(
     String path, {
-    Object? data,
+    dynamic data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-  }) {
+  }) async {
     try {
-      return _dio.get(
+      final response = await _dio.post(
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
       );
-    } on DioException catch (e) {
-      throw HttpException(
-        e.message ?? '',
-        statusCode: e.response?.statusCode ?? 404,
+
+      return HttpResponse(
+        statusCode: response.statusCode ?? 404,
+        data: response.data,
       );
+    } on DioException catch (error, stackTrace) {
+      throw ClientHttpError(message: error.toString(), stackTrace: stackTrace);
     }
   }
 
   @override
-  Future<Response<T>> post<T>(
+  Future<HttpResponse<T>> put<T>(
     String path, {
-    Object? data,
+    dynamic data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-  }) {
+  }) async {
     try {
-      return _dio.post(
+      final response = await _dio.put(
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
       );
-    } on DioException catch (e) {
-      throw HttpException(
-        e.message ?? '',
-        statusCode: e.response?.statusCode ?? 404,
+
+      return HttpResponse(
+        statusCode: response.statusCode ?? 404,
+        data: response.data,
       );
+    } on DioException catch (error, stackTrace) {
+      throw ClientHttpError(message: error.toString(), stackTrace: stackTrace);
     }
   }
 
   @override
-  Future<Response<T>> put<T>(
+  Future<HttpResponse<T>> delete<T>(
     String path, {
-    Object? data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    CancelToken? cancelToken,
-  }) {
+  }) async {
     try {
-      return _dio.put(
+      final response = await _dio.delete(
         path,
-        data: data,
         queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
       );
-    } on DioException catch (e) {
-      throw HttpException(
-        e.message ?? '',
-        statusCode: e.response?.statusCode ?? 404,
+
+      return HttpResponse(
+        statusCode: response.statusCode ?? 404,
+        data: response.data,
       );
+    } on DioException catch (error, stackTrace) {
+      throw ClientHttpError(message: error.toString(), stackTrace: stackTrace);
     }
   }
 }
